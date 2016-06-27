@@ -11,6 +11,10 @@
 import re
 
 class Rule:
+    """
+    A class for representing CFG rules of the form:
+    lhs -> rhs
+    """
 	def __init__(self, lhs, rhs=[]):
 		self.lhs = lhs
 		self.rhs = rhs #a single list of symbols
@@ -28,6 +32,9 @@ class Rule:
 		return self.lhs == other.lhs and self.rhs == other.rhs
 
 class CNF_Converter:
+    """
+    A class for performing CNF conversions.
+    """
 	def __init__(self, old_rules, start_symbol):
 		self.start_symbol = start_symbol
 		self.old_rules = old_rules
@@ -54,6 +61,10 @@ class CNF_Converter:
 		return res
 
 	def convert_hybrid(self, rule):
+	    """
+	    Converts rules that mix terminals and nonterminals:
+	    A -> t B
+	    """
 		new_rhs = []
 		old_rhs = rule.rhs
 		if len(old_rhs) >= 2:
@@ -69,6 +80,10 @@ class CNF_Converter:
 		self.after_hybrid.append(Rule(rule.lhs, new_rhs))
 
 	def convert_unit(self, rule):
+	    """
+	    Converts unit productions rules of the form:
+	    A -> B
+	    """
 		if len(rule.rhs) == 1:
 			curr_rules = self.after_hybrid# == old rules after hybrid conversion
 			self.get_unit_rhs(rule.lhs, rule.rhs, curr_rules)
@@ -85,6 +100,10 @@ class CNF_Converter:
 				self.get_unit_rhs(curr_lhs, new_rhs, curr_rules)
 
 	def convert_long(self, rule):
+	    """
+	    Converts rules with more than two non-terminals on right-hand side:
+	    A -> B C D
+	    """
 		if len(rule.rhs) <= 2:
 			self.after_long.append(Rule(rule.lhs, rule.rhs))
 		else:
@@ -105,6 +124,9 @@ class CNF_Converter:
 		return re.match(r"[\"\'].*[\"\']",symbol) != None
 
 	def convert(self):
+	    """
+	    Converts all CFG rules in the proper order.
+	    """
 		self.convert_all_rules(self.convert_hybrid, self.old_rules)
 		self.convert_all_rules(self.convert_unit, self.after_hybrid)
 		self.convert_all_rules(self.convert_long, self.after_unit)
