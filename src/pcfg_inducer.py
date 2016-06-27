@@ -1,13 +1,13 @@
 #!/opt/python-3.4/bin/python3.4
 
-############################################################################
+###########################################################################
 #
 # Author : Chris LaTerza
 #
 # A class for inducing PCFGs. Takes a treebank file of context-free
 # grammar parses and induces a probabilistic context free grammar (PCFG).
 #
-############################################################################
+###########################################################################
 
 import re
 import nltk
