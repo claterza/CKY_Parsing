@@ -1,12 +1,12 @@
 #!/opt/python-3.4/bin/python3.4
 
-###############################
+##################################################
 #							
 # Author: Chris LaTerza
-# Class: LING 571
-# Last revised: 01/19/16
+# 
+# Converts a CFG grammar to Chomsky normal form
 #
-###############################
+##################################################
 
 import re
 
